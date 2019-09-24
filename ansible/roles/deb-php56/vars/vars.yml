@@ -1,0 +1,6 @@
+---
+php_packages:
+        - php5.6
+        - php5.6-common
+        - php5.6-fpm
+        - php5.6-redis

@@ -1,0 +1,15 @@
+---
+
+- name: Include variables
+  include_vars: vars.yml
+
+- name: Installing PHP 5.6 Repository
+  apt_repository:
+          repo: ppa:ondrej/php
+          state: present
+
+- name: Installing PHP 5.6
+  apt:
+          name: "{{ php_packages }}"
+          state: present
+          update_cache: yes

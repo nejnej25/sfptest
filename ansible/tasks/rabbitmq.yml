@@ -1,0 +1,35 @@
+---
+- name: Installing RabbitMQ repository
+  apt_repository:
+          repo: deb http://www.rabbitmq.com/debian/ testing main
+          state: present
+          filename: rabbitmq
+
+- name: Installing RabbitMQ
+  apt:
+          name: rabbitmq-server
+          state: present
+          update_cache: yes
+          allow_unauthenticated: yes
+
+- name: Enabling RabbitMQ
+  service:
+          name: rabbitmq-server
+          state: started
+          enabled: yes
+
+- name: Creating user
+  rabbitmq_user:
+          user: "{{ user }}"
+          password: "{{ password }}"
+          tags: "{{ tag }}"
+          vhost: /
+          configure_priv: .*
+          read_priv: .*
+          write_priv: .*
+          state: present
+
+- name: Setup web console
+  rabbitmq_plugin:
+          names: rabbitmq_management
+          state: enabled

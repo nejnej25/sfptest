@@ -1,0 +1,35 @@
+---
+
+- name: Install python3-pip
+  apt:
+          name: python3-pip
+          state: present
+
+- name: Install PyMySQL
+  pip:
+          name: PyMySQL
+
+- name: change cnf
+  shell: echo "[client]\nuser={{ mysql_root_username }}\npassword=" > ~/.my.cnf
+
+- name: Change root password
+  mysql_user:
+          login_user: "{{ mysql_root_username }}"
+          name: "{{ mysql_root_username }}"
+          password: "{{ mysql_root_password }}"
+          state: present
+
+- name: Remove anonymous MySQL users
+  mysql_user:
+          login_user: "{{ mysql_root_username }}"
+          login_password: "{{ mysql_root_password }}"
+          name: ""
+          host_all: yes
+          state: absent
+
+- name: Remove MySQL test database
+  mysql_db:
+          login_user: "{{ mysql_root_username }}"
+          login_password: "{{ mysql_root_password }}"
+          name: test
+          state: absent

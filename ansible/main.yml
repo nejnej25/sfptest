@@ -1,0 +1,33 @@
+---
+
+- name: SFP deployment
+  hosts:
+          - web
+
+  become: true
+  tasks:
+           - name: Include variables
+             include_vars: vars.yml
+           
+
+           - include_tasks: tasks/redis.yml
+           - include_tasks: tasks/rabbitmq.yml
+           - include_tasks: tasks/git.yml
+           - include_tasks: tasks/deploy.yml
+           - include_tasks: tasks/nginx.yml
+           - include_tasks: tasks/mysql_user.yml
+          
+           - name: Restart apps
+             command: echo "Restarting needed applications"
+             notify:
+                     - restart nginx
+                     - restart mysql
+                     - restart redis
+                     - restart rabbitmq
+             
+  handlers:
+           - import_tasks: handlers/restart_services.yml
+
+  roles:
+           - { role: deb-php56,  become: true }
+           - { role: deb-mysql56,  become: true }

@@ -1,0 +1,23 @@
+---
+
+- name: Include variables
+  include_vars: vars.yml
+
+- name: Installing MySQL 5.6 Repository
+  apt_repository:
+          repo: ppa:ondrej/mysql-5.6
+          state: present
+
+- name: Installing MySQL 5.6 packages
+  apt:
+          name: "{{ mysql_packages }}"
+          state: present
+          update_cache: yes
+
+- name: Starting MySQL
+  service:
+          name: mysql
+          state: started
+          enabled: yes
+
+- include: configuration.yml

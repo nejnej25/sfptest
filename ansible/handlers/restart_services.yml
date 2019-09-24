@@ -1,0 +1,21 @@
+---
+- name: restart nginx
+  service:
+             name: nginx
+             state: restarted
+
+- name: restart mysql
+  service:
+             name: mysql
+             state: restarted
+
+- name: restart redis
+  service:
+             name: redis-server
+             state: restarted
+
+- name: restart rabbitmq
+  service:
+             name: rabbitmq-server
+             state: restarted
+

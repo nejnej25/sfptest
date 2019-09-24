@@ -1,0 +1,10 @@
+---
+user: admin
+password: password
+tag: administrator
+user_name: api_user
+user_password: jollyhotdog-87000
+db_name: au_locations
+mysql_root_password: tokitoki
+site_name: api.sfp-local.com
+dir: /var/www/ecw-api-test

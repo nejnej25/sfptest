@@ -1,0 +1,27 @@
+---
+- name: Install NGINX
+  apt:
+          name: nginx
+          state: present
+
+- name: Enabling NGINX
+  service:
+          name: nginx
+          state: started
+          enabled: yes
+
+- name: Editing document root group
+  shell: chown -R root:www-data "{{ dir }}"
+
+- name: Editing document root perm
+  shell: chmod 775 "{{ dir }}"
+
+- name: Copying vhost template
+  template:
+          src: vhost.conf.j2
+          dest: /etc/nginx/conf.d/vhost.conf
+
+- name: Restart NGINX
+  service:
+          name: nginx
+          state: restarted
